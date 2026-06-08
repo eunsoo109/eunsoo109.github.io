@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name — Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+  <style>
+   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --fg: #111110;
+      --muted: #888880;
+      --border: #ddddd8;
+      --accent: #111110;
+      --white: #ffffff;
+    }
+@import url('https://fonts.googleapis.com/css2?family=open+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+
+
+
+    body {
+      background: var(--bg);
+      color: var(--fg);x
+      font-family: 'open Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+
+    /* Nav */
+    nav {
+      font-family: "Source Code Pro", monospace;
+      font-size: clamp(1.1rem, 2.4vw, 1.8rem);
+      font-weight: 200;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 1000;
+      pointer-events: auto;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1.5rem;
+      line-height: 1;
+    }
+    .nav-logo {
+      letter-spacing: 0em;
+      text-decoration: none;
+      color: var(--fg);
+      text-transform: none;
+      line-height: 1.2;
+    }
+    .nav-links {
+      display: flex;
+      gap: clamp(0.5rem, 1.5vw, 1.5rem);
+      list-style: none;
+    }
+    .nav-links a {
+      text-transform: none;
+      text-decoration: none;
+      color: var(--fg);
+      opacity: 0.6;
+      transition: opacity 0.2s;
+      cursor: pointer;
+      font-size: clamp(1.1rem, 2.4vw, 1.8rem);
+      line-height: 1;
+    }
+    .nav-links a:hover { opacity: 1; }
+
+    /* Works */
+    #works {
+      padding: 1.5rem 1.5rem 4rem;
+    }
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4rem;
+    }
+    .works-grid {
+      columns: 2;
+      column-gap: 1rem;
+    }
+    .work-thumb {
+      background: var(--border);
+      overflow: hidden;
+      position: relative;
+    }
+    .work-thumb img {
+      width: 100%;
+      height: auto;
+      object-fit: unset;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .work-thumb:hover img {
+      transform: scale(1.04);
+    }
+
+    /* 호버 오버레이 */
+    .work-info {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.25rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 55%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .work-thumb:hover .work-info {
+      opacity: 1;
+    }
+    .work-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.35rem;
+    }
+    .work-title {
+      font-family: 'open Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 400;
+      letter-spacing: 0em;
+      line-height: 1.4;
+      color: #ffffff;
+      word-break: keep-all;
+    }
+    .work-tag {
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .work-tag:hover { color: #ffffff; }
+
+    /* Filter bar — nav 안에 고정 */
+    .filter-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 0.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .filter-btn {
+      font-family: "Source Code Pro", monospace;
+      font-weight: 200;
+      font-size: clamp(1.1rem, 2.4vw, 1.8rem);
+      letter-spacing: 0rem;
+      text-transform: upper;
+      border: none;
+      border-bottom: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      padding: 0;
+      margin-right: 0.75rem;
+      cursor: pointer;
+      transition: color 0.2s;
+      line-height: 1.2;
+    }
+    .filter-btn:hover { color: var(--fg); }
+    .filter-btn.active {
+      color: var(--fg);
+      border-bottom: 1px solid var(--fg);
+    }
+    .year-btn {
+      font-family: 'open Sans', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border: none;
+      border-bottom: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      padding: 0.15rem 0;
+      margin-right: 0.75rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .year-btn:hover { color: var(--fg); }
+    .year-btn.active {
+      color: var(--fg);
+      border-bottom: 1px solid var(--fg);
+    }
+
+    /* Filter groups */
+    .filter-group {
+      display: flex;
+      gap: 0.4rem 0.25rem;
+      flex-wrap: wrap;
+    }
+    .filter-divider {
+      width: 1px;
+      height: 24px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    .work-item {
+      break-inside: avoid;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .work-item.hidden {
+      opacity: 0 !important;
+      pointer-events: none;
+      transform: translateY(8px) !important;
+    }
+
+    /* About */
+    #about {
+      padding: 3rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+      border-top: 1px solid var(--border);
+    }
+    .about-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+    .about-title em { font-style: italic; color: var(--muted); }
+    .about-text {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 2;
+      margin-bottom: 2rem;
+    }
+    .about-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .skill-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      color: var(--fg);
+    }
+
+    /* Contact */
+    #contact {
+      padding: 4rem 2rem 6rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .contact-big {
+      font-family: 'open Sans', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 3rem);
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
+    .contact-big a {
+      text-decoration: none;
+      color: var(--fg);
+      border-bottom: 0px solid var(--fg);
+      transition: color 0.2s;
+    }
+    .contact-right {
+      text-align: right;
+    }
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-end;
+    }
+    .contact-links a {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .contact-links a:hover { color: var(--fg); }
+
+    /* Footer */
+    footer {
+      padding: 0.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: "Source Code Pro", monospace;
+      font-size: clamp(1.1rem, 2.4vw, 1.8rem);
+      font-weight: 200;
+      color: var(--muted);
+      line-height: 1;
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      #hero { padding: 0 1.5rem 4rem; }
+      .hero-meta { flex-direction: column; gap: 1.5rem; }
+      .hero-scroll { margin-left: 0; }
+      #works { padding: 5rem 0rem; }
+      .works-grid { columns: 1; }
+      #about { padding: 5rem 1.5rem; grid-template-columns: 1fr; gap: 3rem; }
+      #contact { padding: 5rem 1.5rem; flex-direction: column; gap: 3rem; align-items: flex-start; }
+      footer { padding: 0.5rem 1.5rem; }
+    }
+
+
+
+/* 드래그 및 선택 방지 */
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+}
+body {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+  </style>
+</head>
+<body>
+
+
+  <!-- Nav -->
+  <nav>
+    <div class="nav-top">
+      <a href="#" class="nav-logo">complete-the-planet</a>
+      <ul class="nav-links">
+       <!-- <li><a href="#works">Works</a></li> 
+        <li><a href="#about">About</a></li> -->
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="filter-bar">
+      <div class="filter-group">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="branding">Branding</button>
+        <button class="filter-btn" data-filter="graphic">Graphic</button>
+        <button class="filter-btn" data-filter="package">Package</button>
+        <button class="filter-btn" data-filter="motion">Motion</button>
+        <button class="filter-btn" data-filter="editorial">Editorial</button>
+        <button class="filter-btn" data-filter="3d modeling">3D Modeling</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Works -->
+  <section id="works">
+
+    <div class="works-grid">
+
+      <article class="work-item" data-id="1" data-year="2025" data-categories="branding, package">
+        <div class="work-thumb">
+          <img src="https://images.unsplash.com/photo-1622737133809-d95047b9e673?w=800&q=80" alt="BUTTER BRICK" />
+          <div class="work-info"><h2 class="work-title">BUTTER BRICK</h2></div>
+        </div>
+      </article>
+
+
+      <article class="work-item" data-id="2" data-year="2024" data-categories="branding, package">
+        <div class="work-thumb">
+          <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80" alt="설국만주" />
+          <div class="work-info"><h2 class="work-title">설국만주</h2></div>
+        </div>
+      </article>
+
+
+      <article class="work-item" data-id="3" data-year="2022" data-categories="graphic">
+        <div class="work-thumb">
+          <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80" alt="Let's Play Ball" />
+          <div class="work-info"><h2 class="work-title">Let's Play Ball</h2></div>
+        </div>
+      </article>
+
+
+      <article class="work-item" data-id="4" data-year="2024" data-categories="branding, package">
+        <div class="work-thumb">
+          <img src="https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?w=800&q=80" alt="연화백편" />
+          <div class="work-info"><h2 class="work-title">연화백편</h2></div>
+        </div>
+      </article>
+
+
+      <article class="work-item" data-id="5" data-year="2025" data-categories="branding, package">
+        <div class="work-thumb">
+          <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=800&q=80" alt="ZEROA" />
+          <div class="work-info"><h2 class="work-title">ZEROA</h2></div>
+        </div>
+      </article>
+
+
+      <article class="work-item" data-id="6" data-year="2024" data-categories="editorial">
+        <div class="work-thumb">
+          <img src="https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?w=800&q=80" alt="대구동구교육재단 리플렛" />
+          <div class="work-info"><h2 class="work-title">대구동구교육재단 리플렛</h2></div>
+        </div>
+      </article>
+
+
+      <article class="work-item" data-id="7" data-year="2024" data-categories="editorial">
+        <div class="work-thumb">
+          <img src="https://images.unsplash.com/photo-1493421419110-74f4e85ba126?w=800&q=80" alt="천연식품 카탈로그" />
+          <div class="work-info"><h2 class="work-title">천연식품 카탈로그</h2></div>
+        </div>
+      </article>
+
+
+      <article class="work-item" data-id="8" data-year="2023" data-categories="3d modeling">
+        <div class="work-thumb">
+          <img src="https://images.unsplash.com/photo-1572044162444-ad60f128bdea?w=800&q=80" alt="PACCO Friends 3D Modeling" />
+          <div class="work-info"><h2 class="work-title">PACCO Friends 3D Modeling</h2></div>
+        </div>
+      </article>
+
+
+      <article class="work-item" data-id="9" data-year="2024" data-categories="motion">
+        <div class="work-thumb">
+          <img src="https://images.unsplash.com/photo-1622737133809-d95047b9e673?w=800&q=80" alt="Brand Motion — Oru Studio" />
+          <div class="work-info"><h2 class="work-title">Brand Motion — Oru Studio</h2></div>
+        </div>
+      </article>
+
+
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div>
+      <h2 class="about-title">
+        Form<br>follows<br><em>intent.</em>
+      </h2>
+    </div>
+    <div>
+      <p class="about-text">
+        안녕하세요. 저는 브랜드와 사람 사이의 간극을 줄이는 디자이너입니다.
+        그래픽, 아이덴티티, 모션을 중심으로 작업하며 각 프로젝트의 
+        본질적인 이야기를 시각 언어로 번역합니다.
+      </p>
+      <p class="about-text">
+      </p>
+      <div class="about-skills">
+        <span class="skill-tag">Brand Identity</span>
+        <span class="skill-tag">Graphic Design</span>
+        <span class="skill-tag">Motion Graphics</span>
+        <span class="skill-tag">Art Direction</span>
+        <span class="skill-tag">Typography</span>
+        <span class="skill-tag">Editorial</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div>
+      <p class="section-label" style="margin-bottom: 1.5rem;">Get in Touch</p>
+      <div class="contact-big">
+        <a href="/cdn-cgi/l/email-protection#375f525b5b58774e58424559565a521954585a">
+          othersideofplanet<br>@gmail.com
+        </a>
+      </div>
+    </div>
+    <div class="contact-right">
+      <div class="contact-links">
+        <a href="https://instagram.com/" target="_blank">Instagram ↗</a>
+        <a href="https://behance.net/" target="_blank">Behance ↗</a>
+        <a href="https://linkedin.com/" target="_blank">LinkedIn ↗</a>
+        <a href="/resume.pdf" target="_blank">Resume ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <span>© 2026 TOSoP</span>
+    <span>Based on Republic of Korea</span>
+  </footer>
+
+
+
+
+  <script>
+    // nav 높이에 맞게 works 섹션 상단 여백 동적 조정
+    function adjustWorksOffset() {
+      const navHeight = document.querySelector('nav').offsetHeight;
+      const offset = window.innerWidth <= 768 ? 0 : 24;
+      document.getElementById('works').style.paddingTop = (navHeight + offset) + 'px';
+    }
+    adjustWorksOffset();
+
+    // nav 높이 변화를 직접 감시 (모바일 뷰 전환, 폰트 로드 등 모든 경우 대응)
+    const navEl = document.querySelector('nav');
+    if (window.ResizeObserver) {
+      new ResizeObserver(adjustWorksOffset).observe(navEl);
+    } else {
+      window.addEventListener('resize', adjustWorksOffset);
+    }
+
+   
+
+    // 초기 순서 저장
+    const grid     = document.querySelector('.works-grid');
+    const allItems = [...grid.querySelectorAll('.work-item')];
+    allItems.forEach((item, i) => item.dataset.originalIndex = i);
+
+    // 필터 상태
+    let activeFilter = 'all';
+    let activeYear   = 'all';
+
+    function applyFilters() {
+      const items   = [...grid.querySelectorAll('.work-item')];
+      const matched = items.filter(i => {
+        const cats   = i.dataset.categories.split(',').map(c => c.trim());
+        const catOk  = activeFilter === 'all' || cats.includes(activeFilter);
+        const yearOk = activeYear   === 'all' || i.dataset.year === activeYear;
+        return catOk && yearOk;
+      });
+      const rest = items.filter(i => !matched.includes(i));
+      items.forEach(i => { i.style.opacity = '0'; i.style.transform = 'translateY(10px)'; });
+      setTimeout(() => {
+        // 항상 matched를 초기 순서 기준으로 정렬 후 앞에, rest는 뒤에
+        const sortedMatched = [...matched].sort((a, b) => a.dataset.originalIndex - b.dataset.originalIndex);
+        const sortedRest    = [...rest].sort((a, b) => a.dataset.originalIndex - b.dataset.originalIndex);
+        sortedMatched.forEach(i => grid.appendChild(i));
+        sortedRest.forEach(i   => grid.appendChild(i));
+        matched.forEach((i, idx) => {
+          i.style.display = '';
+          i.style.pointerEvents = '';
+          setTimeout(() => { i.style.opacity = '1'; i.style.transform = 'translateY(0)'; }, idx * 60);
+        });
+        rest.forEach(i => {
+          i.style.display = 'none';
+          i.style.pointerEvents = 'none';
+        });
+      }, 220);
+    }
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeFilter = btn.dataset.filter;
+        document.querySelectorAll('.filter-btn').forEach(b =>
+          b.classList.toggle('active', b.dataset.filter === activeFilter));
+        applyFilters();
+      });
+    });
+
+    // work 페이지에서 넘어온 필터 값 처리
+    const pendingFilter = localStorage.getItem('pendingFilter');
+    if (pendingFilter) {
+      localStorage.removeItem('pendingFilter');
+      activeFilter = pendingFilter;
+      document.querySelectorAll('.filter-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.filter === activeFilter));
+      applyFilters();
+    }
+
+    document.querySelectorAll('.year-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeYear = btn.dataset.year;
+        document.querySelectorAll('.year-btn').forEach(b =>
+          b.classList.toggle('active', b.dataset.year === activeYear));
+        applyFilters();
+      });
+    });
+
+    // 카테고리 태그 클릭 → 카테고리 필터
+    document.querySelectorAll('.work-tag[data-filter-tag]').forEach(tag => {
+      tag.addEventListener('click', e => {
+        e.stopPropagation();
+        activeFilter = tag.dataset.filterTag;
+        document.querySelectorAll('.filter-btn').forEach(b =>
+          b.classList.toggle('active', b.dataset.filter === activeFilter));
+        document.getElementById('works').scrollIntoView({ behavior: 'smooth' });
+        applyFilters();
+      });
+    });
+
+    // 연도 태그 클릭 → 연도 필터
+    document.querySelectorAll('.work-tag-year[data-filter-year]').forEach(tag => {
+      tag.addEventListener('click', e => {
+        e.stopPropagation();
+        activeYear = tag.dataset.filterYear;
+        document.querySelectorAll('.year-btn').forEach(b =>
+          b.classList.toggle('active', b.dataset.year === activeYear));
+        document.getElementById('works').scrollIntoView({ behavior: 'smooth' });
+        applyFilters();
+      });
+    });
+
+    // 카드 클릭 → 해당 작품 페이지로 이동
+    document.querySelectorAll('.work-item').forEach(item => {
+      item.addEventListener('click', e => {
+        if (e.target.closest('.work-tag')) return;
+        window.location.href = `work-${item.dataset.id}.html`;
+      });
+    });
+
+    // 페이드인 on load
+    document.querySelectorAll('.work-item, .about-title, .about-text, .about-skills').forEach((el, i) => {
+      el.style.opacity   = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      setTimeout(() => {
+        el.style.opacity   = '1';
+        el.style.transform = 'translateY(0)';
+      }, 100 + i * 80);
+    });
+
+    // 우클릭 방지
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    // 드래그 방지
+    document.addEventListener('dragstart', e => e.preventDefault());
+    // 터치 드래그 방지 (모바일)
+    document.addEventListener('touchstart', e => {
+      if (e.target.tagName === 'IMG') e.preventDefault();
+    }, { passive: false });
+  </script>
+</body>
+</html>
